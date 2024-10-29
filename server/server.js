@@ -3,6 +3,8 @@ import cors from "cors";
 import "./env-loader.js";
 
 import userRouter from "./routes/user.route.js";
+import paymentRouter from "./routes/payment.route.js";
+import apiRouter from "./routes/api.route.js";
 
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.NODE_ENV || "development";
@@ -42,12 +44,20 @@ app.use(
   })
 );
 
-const apiRoutePreffix = "/api/v1";
+const apiPathPreffix = process.env.API_PREFFIX || "/api/v1";
 
 // definir aqui las rutas y controllers
 app.use(
-  [`${apiRoutePreffix}/user`, `/staging${apiRoutePreffix}/user`],
+  [`${apiPathPreffix}/user`, `/staging${apiPathPreffix}/user`],
   userRouter
+);
+app.use(
+  [`${apiPathPreffix}/apikey`, `/staging${apiPathPreffix}/apikey`],
+  apiRouter
+);
+app.use(
+  [`${apiPathPreffix}/payment`, `/staging${apiPathPreffix}/payment`],
+  paymentRouter
 );
 
 app.listen(PORT, "0.0.0.0", () => {

@@ -86,10 +86,18 @@ export const verifyToken = async (req, res, next) => {
 };
 
 export const verifyAdmin = (req, res, next) => {
-  if (
-    req.role.toUpperCase() !== "ADMIN" &&
-    req.role.toUpperCase() !== "SUPERADMIN"
-  ) {
+  if (req.role.toUpperCase() !== "ADMIN") {
+    return res.status(403).json({
+      success: false,
+      message: "Unauthorized user",
+    });
+  }
+
+  next();
+};
+
+export const verifySuperAdmin = (req, res, next) => {
+  if (req.role.toUpperCase() !== "SUPERADMIN") {
     return res.status(403).json({
       success: false,
       message: "Unauthorized user",

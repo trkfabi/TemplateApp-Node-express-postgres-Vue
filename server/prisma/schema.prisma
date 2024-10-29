@@ -52,7 +52,7 @@ model UserSession {
 
 model ApiKey {
   id            Int       @id @default(autoincrement())
-  key           String    @unique           // Unique API key
+  key           String    @unique @default(uuid())          // Unique API key
   originDomains String[]  // Array of authorized origin domains
   description   String?
   usageLimit    Int?      // Optional: Limit on the number of uses
