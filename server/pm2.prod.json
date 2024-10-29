@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "template-app-production",
+            "script": "./server.js",
+            "watch": true,
+            "env_production": {
+                "NODE_ENV": "production",
+                "PORT": 3000
+            }
+        }
+    ]
+}

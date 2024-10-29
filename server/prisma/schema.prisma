@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  passwordHash String         // Hashed password
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  profile      UserProfile?
+  sessions     UserSession[]
+
+  RefreshToken RefreshToken[]
+
+  PasswordResetToken PasswordResetToken[]
+}
+
+model UserProfile {
+  id        Int     @id @default(autoincrement())
+  userId    Int     @unique
+  firstName String
+  lastName  String
+  avatarUrl String?
+  bio       String?
+  role      Role    @default(USER) // Role of the user
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER       // Basic user role
+  ADMIN      // Admin with elevated privileges
+  SUPERADMIN // Superadmin with full privileges
+}
+
+model UserSession {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  token          String   // JWT token
+  refreshToken   String
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
+  lastAccessedAt DateTime?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ApiKey {
+  id            Int       @id @default(autoincrement())
+  key           String    @unique           // Unique API key
+  originDomains String[]  // Array of authorized origin domains
+  description   String?
+  usageLimit    Int?      // Optional: Limit on the number of uses
+  createdAt     DateTime  @default(now())
+  lastUsedAt    DateTime?
+  isActive      Boolean   @default(true)
+}
+
+model PasswordResetToken {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Log {
+  id        Int       @id @default(autoincrement())
+  type   LogType   // Tipo de log, usando un enum
+  source String
+  action String
+  details   Json      // Detalles del log, puede ser JSON o texto
+  createdAt DateTime  @default(now())
+}
+
+enum LogType {
+  INFO       // Información general
+  WARNING    // Advertencias
+  ERROR      // Errores
+  DEBUG      // Logs de depuración
+  AUDIT      // Logs de auditoría
+}
+
+model Config {
+  id        Int     @id @default(autoincrement())
+  key       String  @unique  // Nombre o identificador único del parámetro
+  value     Json            // Valor del parámetro, soporta tipos flexibles (string, number, array, JSON)
+  updatedAt DateTime @updatedAt
+}
