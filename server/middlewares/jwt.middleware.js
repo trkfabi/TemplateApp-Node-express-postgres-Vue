@@ -86,7 +86,6 @@ export const verifyToken = async (req, res, next) => {
 };
 
 export const verifyAdmin = (req, res, next) => {
-  console.log("verifyAdmin req.role", req.role);
   if (
     req.role.toUpperCase() !== "ADMIN" &&
     req.role.toUpperCase() !== "SUPERADMIN"
