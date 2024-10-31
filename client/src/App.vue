@@ -1,47 +1,44 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div id="app">
+    <HeaderView />
+    <router-view class="flex-grow"></router-view>
+    <FooterView />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+import HeaderView from './components/layout/HeaderView.vue'
+import FooterView from './components/layout/FooterView.vue'
+import HomeView from './components/HomeView.vue'
+import LoginView from './components/auth/LoginView.vue'
+import AdminView from './components/admin/AdminView.vue'
+import UserView from './components/user/UserView.vue'
+export default {
+  name: 'App',
+  components: {
+    HeaderView,
+    FooterView,
+    HomeView,
+    LoginView,
+    AdminView,
+    UserView,
+  },
+}
+</script>
+
+<style>
+/* En tu archivo CSS global o en el estilo de App.vue */
+#app {
+  display: flex; /* Habilita Flexbox */
+  flex-direction: column; /* Coloca los elementos en una columna */
+  min-height: 100vh; /* Asegura que el contenedor tenga al menos la altura de la pantalla */
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.flex-grow {
+  flex-grow: 1; /* Permite que el contenido del router-view ocupe el espacio restante */
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+footer {
+  margin-top: auto; /* Asegura que el footer esté en la parte inferior */
 }
 </style>
