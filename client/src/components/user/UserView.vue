@@ -6,12 +6,6 @@
           <ul>
             <li v-if="isAuthenticated">Bienvenido, {{ email }}!</li>
             <li v-if="isAuthenticated">Rol: {{ role }}</li>
-            <li v-if="isAuthenticated">
-              <button @click="logout">Cerrar Sesión</button>
-            </li>
-            <li v-else>
-              <router-link to="/login">Iniciar Sesión</router-link>
-            </li>
           </ul>
         </nav>
       </div>

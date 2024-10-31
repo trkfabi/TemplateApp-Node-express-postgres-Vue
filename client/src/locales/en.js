@@ -16,5 +16,15 @@ export default {
     logoutButtonTitle: 'Log out',
     adminButtonTitle: 'Admin',
   },
+  sidebar: {
+    logoutLabel: 'Logout',
+    settingsLabel: 'Settings',
+    adminLabel: 'Admin dashboard',
+    dashboardLabel: 'Dashboard',
+    ordersLabel: 'Orders',
+    usersLabel: 'Users',
+    clientsLabel: 'Clients',
+    vendorsLabel: 'Vendors',
+  },
   // Agrega más traducciones aquí
 }

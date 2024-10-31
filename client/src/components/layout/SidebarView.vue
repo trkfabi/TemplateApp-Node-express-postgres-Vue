@@ -13,7 +13,7 @@
         <span class="flex items-center space-x-1">
           <a
             rel="noopener noreferrer"
-            href="#"
+            href="/profile"
             class="text-xs hover:underline dark:text-gray-600"
             >View profile</a
           >
@@ -28,8 +28,8 @@
             href="/admin"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-user w-5 h-5 dark:text-gray-600"></i>
-            <span>Go to Admin</span>
+            <i class="fas fa-user w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.adminLabel') }}</span>
           </a>
         </li>
       </ul>
@@ -37,11 +37,13 @@
         <li class="dark:bg-gray-100 dark:text-gray-900">
           <a
             rel="noopener noreferrer"
-            href="#"
+            href="/user"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-tachometer-alt w-5 h-5 dark:text-gray-600"></i>
-            <span>Dashboard</span>
+            <i
+              class="fas fa-tachometer-alt w-5 h-5 pt-1 dark:text-gray-600"
+            ></i>
+            <span>{{ $t('sidebar.dashboardLabel') }}</span>
           </a>
         </li>
         <li>
@@ -50,38 +52,42 @@
             href="#"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-search w-5 h-5 dark:text-gray-600"></i>
-            <span>Search</span>
+            <i class="fas fa-shopping-cart w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.ordersLabel') }}</span>
           </a>
         </li>
         <li>
           <a
+            v-if="isAuthenticated && isAdmin"
             rel="noopener noreferrer"
             href="#"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-comments w-5 h-5 dark:text-gray-600"></i>
-            <span>Chat</span>
+            <i class="fas fa-users w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.usersLabel') }}</span>
           </a>
         </li>
         <li>
           <a
+            v-if="isAuthenticated && isAdmin"
             rel="noopener noreferrer"
             href="#"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-shopping-cart w-5 h-5 dark:text-gray-600"></i>
-            <span>Orders</span>
+            <i class="far fa-address-book w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.clientsLabel') }}</span>
           </a>
         </li>
+
         <li>
           <a
+            v-if="isAuthenticated && isAdmin"
             rel="noopener noreferrer"
             href="#"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-heart w-5 h-5 dark:text-gray-600"></i>
-            <span>Wishlist</span>
+            <i class="fas fa-city w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.vendorsLabel') }}</span>
           </a>
         </li>
       </ul>
@@ -89,11 +95,11 @@
         <li>
           <a
             rel="noopener noreferrer"
-            href="#"
+            href="/settings"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-cog w-5 h-5 dark:text-gray-600"></i>
-            <span>Settings</span>
+            <i class="fas fa-cog w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.settingsLabel') }}</span>
           </a>
         </li>
         <li v-if="isAuthenticated">
@@ -103,8 +109,8 @@
             @click.prevent="logout"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-sign-out w-5 h-5 dark:text-gray-600"></i>
-            <span>Logout</span>
+            <i class="fas fa-sign-out w-5 h-5 pt-1 dark:text-gray-600"></i>
+            <span>{{ $t('sidebar.logoutLabel') }}</span>
           </a>
         </li>
       </ul>
