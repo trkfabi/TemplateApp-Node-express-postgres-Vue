@@ -14,6 +14,7 @@ export default {
   home: {
     loginButtonTitle: 'Login / Sign up',
     logoutButtonTitle: 'Log out',
+    adminButtonTitle: 'Admin',
   },
   // Agrega más traducciones aquí
 }

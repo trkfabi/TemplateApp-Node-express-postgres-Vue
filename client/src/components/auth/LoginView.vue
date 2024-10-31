@@ -129,14 +129,15 @@ const login = async () => {
       errorMessage.value = '' // Limpiar cualquier mensaje de error
       email.value = ''
       password.value = ''
-      if (
-        data.results.user.profile.role.toLowerCase() === 'admin' ||
-        data.results.user.profile.role.toLowerCase() === 'superadmin'
-      ) {
-        router.push('/admin')
-      } else {
-        router.push('/user')
-      }
+      router.push('/user')
+      // if (
+      //   data.results.user.profile.role.toLowerCase() === 'admin' ||
+      //   data.results.user.profile.role.toLowerCase() === 'superadmin'
+      // ) {
+      //   router.push('/admin')
+      // } else {
+      //   router.push('/user')
+      // }
     }
   } catch (error) {
     // En caso de error, limpiar el estado y mostrar un mensaje

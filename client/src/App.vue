@@ -1,29 +1,29 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col h-screen">
     <HeaderView />
-    <router-view class="flex-grow"></router-view>
+    <div class="flex flex-grow">
+      <SidebarView v-if="isAuthenticated" />
+      <div class="flex-grow p-4">
+        <router-view />
+      </div>
+    </div>
     <FooterView />
   </div>
 </template>
 
-<script>
+<script setup>
 import HeaderView from './components/layout/HeaderView.vue'
 import FooterView from './components/layout/FooterView.vue'
-import HomeView from './components/HomeView.vue'
-import LoginView from './components/auth/LoginView.vue'
-import AdminView from './components/admin/AdminView.vue'
-import UserView from './components/user/UserView.vue'
-export default {
-  name: 'App',
-  components: {
-    HeaderView,
-    FooterView,
-    HomeView,
-    LoginView,
-    AdminView,
-    UserView,
-  },
-}
+import SidebarView from './components/layout/SidebarView.vue'
+
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+// Usar useStore para acceder a la tienda Vuex
+const store = useStore()
+
+// Computed property para verificar si el usuario está autenticado
+const isAuthenticated = computed(() => store.getters['user/isAuthenticated'])
 </script>
 
 <style>
