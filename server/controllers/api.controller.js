@@ -124,7 +124,7 @@ export const ApiController = {
 
       const total = await ApiModel.count({ where });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Api keys retrieved successfully",
         results: {
@@ -136,7 +136,7 @@ export const ApiController = {
       });
     } catch (error) {
       console.error("Error in fetching api keys:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred while fetching api keys",
         results: null,

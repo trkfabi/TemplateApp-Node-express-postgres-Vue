@@ -6,6 +6,7 @@ import userStore from './user'
 const vuexPersister = new VuexPersister({
   // ...your options
   key: 'vuex-templateapp',
+  storage: localStorage,
 })
 
 const store = createStore({

@@ -5,6 +5,7 @@ import "./env-loader.js";
 import userRouter from "./routes/user.route.js";
 import paymentRouter from "./routes/payment.route.js";
 import apiRouter from "./routes/api.route.js";
+import logRouter from "./routes/log.route.js";
 
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.NODE_ENV || "development";
@@ -60,6 +61,7 @@ app.use(
   [`${apiPathPreffix}/payment`, `/staging${apiPathPreffix}/payment`],
   paymentRouter
 );
+app.use([`${apiPathPreffix}/log`, `/staging${apiPathPreffix}/log`], logRouter);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running in ${ENV || "development"} mode on port ${PORT}`);

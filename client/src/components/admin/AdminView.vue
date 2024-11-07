@@ -521,10 +521,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { Api } from '../../services/api.js'
+
+const myUserData = ref(null)
 const store = useStore()
 
+// puedo obtenerlo desde el store asi:
 const isAuthenticated = computed(() => store.getters['user/isAuthenticated'])
 const email = computed(() => store.getters['user/getEmail'])
 const profile = computed(() => store.getters['user/getProfile'])
@@ -532,6 +536,17 @@ let role = ''
 if (profile.value) {
   role = profile.value.role
 }
+
+// o tambien puedo obtenerlo llamando a la api /user/me
+onMounted(async () => {
+  const {
+    data: { success, results },
+  } = await Api.user.me()
+  if (success) {
+    myUserData.value = results
+  }
+})
+
 const logout = () => {
   store.dispatch('user/logout')
 }

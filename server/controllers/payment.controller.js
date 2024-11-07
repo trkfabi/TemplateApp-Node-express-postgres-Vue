@@ -38,14 +38,14 @@ export const PaymentController = {
         cancel_url: `${API_DOMAIN}${API_PREFFIX}/payment/cancel`,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "User logged out successfully",
         results: session,
       });
     } catch (error) {
       console.error("Error in stripe session create:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred during Stripe session",
         results: null,

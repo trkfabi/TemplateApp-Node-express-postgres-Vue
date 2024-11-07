@@ -3,6 +3,9 @@ import { LogType, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const LogModel = {
+  async count({ where }) {
+    return await prisma.log.count({ where });
+  },
   async create({
     type = LogType.INFO,
     source = "",

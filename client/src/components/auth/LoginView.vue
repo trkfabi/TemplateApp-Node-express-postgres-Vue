@@ -53,6 +53,7 @@
                       id="remember"
                       aria-describedby="remember"
                       type="checkbox"
+                      v-model="remember"
                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     />
                   </div>
@@ -106,6 +107,7 @@ const store = useStore()
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const remember = ref(false)
 
 //const isAuthenticated = computed(() => store.getters['user/isAuthenticated'])
 const router = useRouter()
@@ -116,6 +118,7 @@ const login = async () => {
     const { data } = await Api.user.login({
       email: email.value,
       password: password.value,
+      remember: remember.value,
     })
 
     if (data.success) {
@@ -126,6 +129,7 @@ const login = async () => {
         id: data.results.user.id,
         profile: data.results.user.profile || null,
       })
+
       errorMessage.value = '' // Limpiar cualquier mensaje de error
       email.value = ''
       password.value = ''

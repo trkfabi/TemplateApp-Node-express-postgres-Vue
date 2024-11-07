@@ -1,15 +1,23 @@
 <template>
   <div
-    class="h-full p-3 bg-white space-y-2 w-60 dark:bg-gray-50 dark:text-gray-800"
+    :class="`h-full p-3 bg-white space-y-2 ${isCollapsed ? 'w-16' : 'w-60'} transition-all duration-300 overflow-auto dark:bg-gray-50 dark:text-gray-800`"
   >
+    <button
+      @click="toggleSidebar"
+      :class="`mb-4 flex ${isCollapsed ? 'justify-center' : 'justify-end'} w-full`"
+    >
+      <i :class="isCollapsed ? 'fas fa-angle-right' : 'fas fa-angle-left'"></i>
+    </button>
     <div class="flex items-center p-2 space-x-4">
       <img
         :src="avatarUrl"
         alt="User Avatar"
-        class="w-12 h-12 rounded-full dark:bg-gray-500"
+        :class="`${isCollapsed ? 'w-8' : 'w-12'} rounded-full dark:bg-gray-500`"
       />
-      <div>
-        <h2 class="text-md font-semibold">{{ username }}</h2>
+      <div v-if="!isCollapsed">
+        <h2 class="text-md font-semibold break-words">
+          {{ username }}fdsfsdfsdfsdfsdf
+        </h2>
         <span class="flex items-center space-x-1">
           <a
             rel="noopener noreferrer"
@@ -28,8 +36,10 @@
             href="/admin"
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
-            <i class="fas fa-user w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.adminLabel') }}</span>
+            <i
+              :class="`fas fa-user ${isCollapsed ? 'w-8 h-8' : 'w-5 h-5'} pt-1 dark:text-gray-600`"
+            ></i>
+            <span v-if="!isCollapsed">{{ $t('sidebar.adminLabel') }}</span>
           </a>
         </li>
       </ul>
@@ -43,7 +53,7 @@
             <i
               class="fas fa-tachometer-alt w-5 h-5 pt-1 dark:text-gray-600"
             ></i>
-            <span>{{ $t('sidebar.dashboardLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.dashboardLabel') }}</span>
           </a>
         </li>
         <li>
@@ -53,7 +63,7 @@
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
             <i class="fas fa-shopping-cart w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.ordersLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.ordersLabel') }}</span>
           </a>
         </li>
         <li>
@@ -64,7 +74,7 @@
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
             <i class="fas fa-users w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.usersLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.usersLabel') }}</span>
           </a>
         </li>
         <li>
@@ -75,7 +85,7 @@
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
             <i class="far fa-address-book w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.clientsLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.clientsLabel') }}</span>
           </a>
         </li>
 
@@ -87,7 +97,7 @@
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
             <i class="fas fa-city w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.vendorsLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.vendorsLabel') }}</span>
           </a>
         </li>
       </ul>
@@ -99,7 +109,7 @@
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
             <i class="fas fa-cog w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.settingsLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.settingsLabel') }}</span>
           </a>
         </li>
         <li v-if="isAuthenticated">
@@ -110,7 +120,7 @@
             class="flex items-center p-2 space-x-3 rounded-md hover:text-primary-500"
           >
             <i class="fas fa-sign-out w-5 h-5 pt-1 dark:text-gray-600"></i>
-            <span>{{ $t('sidebar.logoutLabel') }}</span>
+            <span v-if="!isCollapsed">{{ $t('sidebar.logoutLabel') }}</span>
           </a>
         </li>
       </ul>
@@ -120,7 +130,7 @@
 
 <script setup>
 import { Api } from '@/services/api'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import defaultAvatar from '@/assets/images/user.png'
@@ -146,6 +156,11 @@ const isAdmin = computed(
     store.getters['user/getProfile']?.role.toLowerCase() === 'admin' ||
     store.getters['user/getProfile']?.role.toLowerCase() === 'superadmin',
 )
+const isCollapsed = ref(false)
+
+const toggleSidebar = () => {
+  isCollapsed.value = !isCollapsed.value
+}
 
 const logout = async () => {
   store.dispatch('user/logout')
@@ -153,3 +168,10 @@ const logout = async () => {
   router.push('/')
 }
 </script>
+
+<style scoped>
+/* Ajustes adicionales de estilo para el sidebar colapsado */
+.w-16 {
+  width: 4rem; /* Ancho del sidebar en modo colapsado */
+}
+</style>

@@ -16,7 +16,7 @@ export const UserController = {
       // Verificar si el usuario ya existe
       const existingUser = await UserModel.findUniqueEmail({ email });
       if (existingUser) {
-        return res.status(400).json({
+        return res.status(401).json({
           success: false,
           message: "User already exists",
           results: null,
@@ -61,7 +61,7 @@ export const UserController = {
       });
 
       // Devolver tokens en la respuesta
-      res
+      return res
         .status(201)
         .set("x-auth-token", accessToken)
         .set("x-refresh-token", refreshToken)
@@ -72,7 +72,7 @@ export const UserController = {
         });
     } catch (error) {
       console.error("Error in register:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred during registration",
         results: null,
@@ -122,7 +122,7 @@ export const UserController = {
         expiresAt: new Date(expirationDate * 1000),
       });
 
-      res
+      return res
         .status(200)
         .set("x-auth-token", accessToken)
         .set("x-refresh-token", refreshToken)
@@ -133,7 +133,7 @@ export const UserController = {
         });
     } catch (error) {
       console.error("Error in login:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred during login",
         results: null,
@@ -151,7 +151,6 @@ export const UserController = {
     }
 
     try {
-      console.log("logout refreshToken", refreshToken);
       // Verificar si la sesión con el refreshToken existe
       const session = await UserSessionModel.findUnique({ refreshToken });
 
@@ -167,14 +166,14 @@ export const UserController = {
         where: { refreshToken },
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "User logged out successfully",
         results: null,
       });
     } catch (error) {
       console.error("Error during logout:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred during logout",
         results: null,
@@ -193,7 +192,7 @@ export const UserController = {
         session.expiresAt < new Date() ||
         !JwtHelper.verifyJwtRefreshToken(refreshToken)
       ) {
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: "Invalid or expired refresh token",
           results: null,
@@ -205,7 +204,7 @@ export const UserController = {
         role: session.user.profile.role,
       });
 
-      res
+      return res
         .status(200)
         .set("x-auth-token", newAccessToken)
         .set("x-refresh-token", refreshToken)
@@ -216,7 +215,7 @@ export const UserController = {
         });
     } catch (error) {
       console.error("Error in refresh token:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred while refreshing token",
         results: null,
@@ -240,14 +239,14 @@ export const UserController = {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "",
         results: user,
       });
     } catch (error) {
       console.error("Error fetching user:", error);
-      res
+      return res
         .status(500)
         .json({ error: "An error occurred while fetching the user" });
     }
@@ -268,14 +267,14 @@ export const UserController = {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "",
         results: user,
       });
     } catch (error) {
       console.error("Error fetching user:", error);
-      res
+      return res
         .status(500)
         .json({ error: "An error occurred while fetching the user" });
     }
@@ -323,7 +322,7 @@ export const UserController = {
 
       const totalUsers = await UserModel.count({ where });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Users retrieved successfully",
         results: {
@@ -335,7 +334,7 @@ export const UserController = {
       });
     } catch (error) {
       console.error("Error in fetching users:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "An error occurred while fetching users",
         results: null,

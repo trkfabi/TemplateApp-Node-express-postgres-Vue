@@ -43,6 +43,3 @@ if (profile.value) {
   role = profile.value.role
 }
 </script>
-<script setup></script>
-
-<style lang="scss" scoped></style>

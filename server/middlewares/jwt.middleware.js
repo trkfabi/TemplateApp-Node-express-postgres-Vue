@@ -6,7 +6,7 @@ export const verifyToken = async (req, res, next) => {
   let refresh_token = req.headers["set-refresh-token"];
 
   if (!token) {
-    return res.status(401).json({
+    return res.status(400).json({
       success: false,
       message:
         "Token not provided. Please use `Authorization: Bearer XXXXX` header",
@@ -19,7 +19,7 @@ export const verifyToken = async (req, res, next) => {
   });
 
   if (!session) {
-    return res.status(401).json({
+    return res.status(400).json({
       success: false,
       message: "Session not found. Please log in again.",
     });

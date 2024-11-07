@@ -55,7 +55,7 @@ apiClient.interceptors.response.use(
 
 export const Api = {
   user: {
-    async login({ email, password }) {
+    async login({ email, password, remember }) {
       try {
         const response = await apiClient.post(`/user/login`, {
           email,
@@ -65,10 +65,10 @@ export const Api = {
           const authToken = response.headers['x-auth-token']
           const refreshToken = response.headers['x-refresh-token']
           if (authToken) {
-            saveAuthToken(authToken)
+            saveAuthToken(authToken, remember)
           }
           if (refreshToken) {
-            saveRefreshToken(refreshToken)
+            saveRefreshToken(refreshToken, remember)
           }
         } else {
           clearTokens()
